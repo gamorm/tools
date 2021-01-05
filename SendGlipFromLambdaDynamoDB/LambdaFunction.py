@@ -40,7 +40,7 @@ def lambda_handler(event, context):
 # Connect to your dynamoDB table
 def getEvent(Date, dynamodb='None'):
     dynamodb = boto3.resource('dynamodb',region_name='us-west-2')
-    table = dynamodb.Table('tblTDRschedule')
+    table = dynamodb.Table('#PUT YOUR TABLE NAME HERE')
 
     response = table.get_item(
         Key={
