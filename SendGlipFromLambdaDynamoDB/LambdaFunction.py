@@ -1,3 +1,10 @@
+#
+# 1) Checks a dynamo table for an index of date. 
+# 2) If one matches today, generate a payload and send to a glip webhook.
+# 
+# Can manually trigger or create an AWS Eventbridge rule. 
+# Ryan Gamo, 2020 
+#
 import json
 import boto3
 
@@ -8,12 +15,19 @@ def lambda_handler(event, context):
     today = str(date.today())
     
     # Generate content for the glip message
+    # Calls getEvent() and gets the item/row for the index (in this case, date) matching today
     eventdetail = getEvent(today)
     
+    # Generate the JSON Payload
+    # Calls writejson() formatting elements from the item in eventdetail.
+    # Passes the date in because it's used in the JSON payload.
     glipmessage = writejson(eventdetail,today)
+    
+    # URI variables in case you have a test/prod webhook
     testuri = #Insert a TEST URI here [optional]
     produri = #Insert a PROD URI here 
     
+    # Required headers and payload
     headers = {
         'Content-Type': 'application/json',
       }
